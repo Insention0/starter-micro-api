@@ -19,6 +19,10 @@ let transporter = nodemailer.createTransport({
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.get("/",(req,res)=>{
+res.json("hey")
+
+})
 // Define a route for handling POST requests to '/submit'
 app.post('/submit', (req, res) => {
   let mailOptions = {
