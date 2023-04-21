@@ -35,12 +35,13 @@ app.post('/submit', (req, res) => {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
         return console.log(error);
+        res.json('Error');
     }
     console.log('Message sent: %s', info.messageId);
+    res.json('Success');
   });
 
 
-  res.json('Done');
 });
 
 // Start the server
