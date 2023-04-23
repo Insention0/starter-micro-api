@@ -1,8 +1,13 @@
 
 const express = require('express');
 const app = express();
+const cors = require("cors");
 const nodemailer = require('nodemailer');
-
+app.use("/api", cors({
+  origin: "http://example.com",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 let transporter = nodemailer.createTransport({
   service: 'gmail',
